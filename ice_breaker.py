@@ -22,21 +22,21 @@ def ice_break_with(
     linkedin_data = scrape_linkedin_profile(linkedin_profile_url=linkedin_url)
 
     twitter_username = twitter_lookup_agent(name=name)
-    tweets = scrape_user_tweets_mock(username=twitter_username)
+    tweet_list = scrape_user_tweets_mock(username=twitter_username)
 
     summary_chain = get_summary_chain()
     summary_and_facts: Summary = summary_chain.invoke(
-        input={"information": linkedin_data, "twitter_posts": tweets},
+        input={"information": linkedin_data, "twitter_posts": tweet_list},
     )
 
     interests_chain = get_interests_chain()
     interests: TopicOfInterest = interests_chain.invoke(
-        input={"information": linkedin_data, "twitter_posts": tweets}
+        input={"information": linkedin_data, "twitter_posts": tweet_list}
     )
 
     ice_breaker_chain = get_ice_breaker_chain()
     ice_breakers: IceBreaker = ice_breaker_chain.invoke(
-        input={"information": linkedin_data, "twitter_posts": tweets}
+        input={"information": linkedin_data, "twitter_posts": tweet_list}
     )
 
     return (
